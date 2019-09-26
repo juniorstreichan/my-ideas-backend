@@ -1,7 +1,8 @@
 {
   "name": "my-ideas-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.js",
+  "author": "Junior Erdmann Streichan",
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=dev nodemon -w src --exec \"babel-node src/server.js --presets env\" --ignore __tests__",
