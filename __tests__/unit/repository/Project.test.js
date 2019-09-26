@@ -61,7 +61,7 @@ describe('Test suite for Project CRUD', () => {
   it('should remove a idea in Project', async () => {
     await Project.update(
       { _id: project._id },
-      { $pull: { ideas: project.ideas[0] } },
+      { $pull: { ideas: { _id: project.ideas[0]._id } } },
     );
 
     project = await Project.findById(project._id);
