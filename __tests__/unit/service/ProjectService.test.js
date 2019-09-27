@@ -1,5 +1,5 @@
 import faker from 'faker';
-import ProjectService from '../../../src/modules/project/service/ProjectService';
+import ProjectService from '../../../src/modules/project/ProjectService';
 import { connectMongoDBTest, disconnectMongoDBTest } from '../../tools/dbUtils';
 import { generateProject } from '../../tools/mockData';
 
@@ -56,5 +56,23 @@ describe('Test suite for ProjectService', () => {
     expect(compareProject).not.toBeNull();
     expect(compareProject).not.toBeUndefined();
     expect(compareProject.ideas.length).toBe(project.ideas.length);
+  });
+
+  it('should update a idea in Project', async () => {
+    const idea = project.ideas[1];
+
+    idea.description = 'TESTEEEEE';
+
+    await ProjectService.addIdea(project._id, idea);
+
+    const compareProject = await ProjectService.findById(project._id);
+
+
+    const compareIdea = compareProject.ideas.filter((i) => i.description === 'TESTEEEEE');
+
+    expect(compareProject.name).toBe(project.name);
+    expect(compareProject).not.toBeNull();
+    expect(compareProject).not.toBeUndefined();
+    expect(compareIdea.length).toBe(1);
   });
 });

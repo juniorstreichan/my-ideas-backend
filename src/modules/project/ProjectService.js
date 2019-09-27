@@ -1,4 +1,4 @@
-import Project from '../repository/Project';
+import Project from './Project';
 
 class ProjectService {
   async insert(project) {
@@ -11,7 +11,10 @@ class ProjectService {
 
   async findByName(name = '') {
     if (name && name.trim !== '') {
-      const project = await Project.findOne({ name });
+      let project = await Project.findOne({ name });
+      if (!project) {
+        project = await this.insert({ name, ideas: [] });
+      }
       return project;
     }
     throw new Error('Invalid name!');
@@ -27,10 +30,18 @@ class ProjectService {
 
   async addIdea(idProject = '', idea) {
     if (idProject && idea) {
-      await Project.update(
-        { _id: idProject },
-        { $push: { ideas: idea } },
-      );
+      if (idea._id) {
+        await Project.update(
+          { 'ideas._id': idea._id }, {
+            $set: { 'ideas.$': idea },
+          },
+        );
+      } else {
+        await Project.update(
+          { _id: idProject },
+          { $push: { ideas: idea } },
+        );
+      }
       return;
     }
     throw new Error('Invalid id!');

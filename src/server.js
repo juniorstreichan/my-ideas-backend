@@ -7,10 +7,8 @@ Mongoose.connect(process.env.DATABASE_CONNECTION, {
   useCreateIndex: true,
 });
 
-console.log(Mongoose.connection);
-
-
 App.get('/', (_, res) => res.send({ content: Mongoose.version }));
 
 const port = process.env.PORT || 3334;
+
 App.listen(port);

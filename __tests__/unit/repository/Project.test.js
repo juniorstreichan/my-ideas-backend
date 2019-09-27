@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { connectMongoDBTest, disconnectMongoDBTest } from '../../tools/dbUtils';
-import Project from '../../../src/modules/project/repository/Project';
+import Project from '../../../src/modules/project/Project';
 import { generateProject } from '../../tools/mockData';
 
 
@@ -69,5 +69,27 @@ describe('Test suite for Project CRUD', () => {
     expect(project).not.toBeNull();
 
     expect(project.ideas.length).toBe(4);
+  });
+
+
+  it('should update a idea in Project', async () => {
+    const idea = project.ideas[0];
+
+
+    idea.description = 'TESTEEEEE';
+    await Project.update(
+      { 'ideas._id': idea._id }, {
+        $set: { 'ideas.$': idea },
+      },
+    );
+    project = await Project.findById(project._id);
+    const compareIdea = project.ideas.filter((i) => i.description === 'TESTEEEEE');
+    console.log(compareIdea);
+
+
+    expect(project).not.toBeNull();
+
+    expect(project.ideas.length).toBe(4);
+    expect(compareIdea.length).toBe(1);
   });
 });
