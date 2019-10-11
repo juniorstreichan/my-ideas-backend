@@ -30,14 +30,12 @@ class ProjectService {
 
   async addIdea(idProject = '', idea) {
     if (idProject && idea) {
-      if (idea._id) {
-        await Project.update(
-          { 'ideas._id': idea._id }, {
-            $set: { 'ideas.$': idea },
-          },
-        );
+      const ideaExists = await Project.exists({ _id: idProject, 'ideas._id': idea._id });
+
+      if (ideaExists) {
+        await this.updateIdea(idProject, idea);
       } else {
-        await Project.update(
+        await Project.updateOne(
           { _id: idProject },
           { $push: { ideas: idea } },
         );
@@ -47,9 +45,22 @@ class ProjectService {
     throw new Error('Invalid id!');
   }
 
+  async updateIdea(idProject = '', idea) {
+    if (idProject && idea) {
+
+      await Project.updateOne(
+        { _id: idProject, 'ideas._id': idea._id }, {
+          $set: { 'ideas.$': idea },
+        },
+      );
+      return;
+    }
+    throw new Error('Invalid id!');
+  }
+
   async removeIdea(idProject, idIdea) {
     if (idProject && idIdea) {
-      await Project.update(
+      await Project.updateOne(
         { _id: idProject },
         { $pull: { ideas: { _id: idIdea } } },
       );

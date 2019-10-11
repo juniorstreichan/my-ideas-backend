@@ -5,6 +5,7 @@ import App from './app';
 Mongoose.connect(process.env.DATABASE_CONNECTION, {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useUnifiedTopology: true,
 });
 
 App.get('/', (_, res) => res.send({ message: 'API Ideas' }));

@@ -7,7 +7,7 @@ class ProjectController {
 
       return res.status(201).send(project);
     } catch (error) {
-      return res.status(400).send({ message: error.message });
+      return res.status(error.status || 400).send({ message: error.message });
     }
   }
 
@@ -29,7 +29,7 @@ class ProjectController {
 
       return res.status(404).send({ message: 'Not found' });
     } catch (error) {
-      return res.status(400).send({ message: error.message });
+      return res.status(error.status || 400).send({ message: error.message });
     }
   }
 
@@ -44,7 +44,7 @@ class ProjectController {
 
       return res.status(404).send({ message: 'Not found' });
     } catch (error) {
-      return res.status(400).send({ message: error.message });
+      return res.status(error.status || 400).send({ message: error.message });
     }
   }
 
@@ -59,7 +59,7 @@ class ProjectController {
 
       return res.status(404).send({ message: 'Not found' });
     } catch (error) {
-      return res.status(400).send({ message: error.message });
+      return res.status(error.status || 400).send({ message: error.message });
     }
   }
 }
