@@ -4,7 +4,7 @@
 
 ----------------------
 
-## This is a API for ideas!
+## This is an API for ideas!
 
 Maked with **Node.js**, **ES6** and **MongoDB** and using **TDD metodology** and **Continuous Integration (CI)**
 
